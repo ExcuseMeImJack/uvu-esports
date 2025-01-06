@@ -1,20 +1,81 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL") // uses connection pooling
-  directUrl = env("DATABASE_URL_UNPOOLED") // uses a direct connection
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model users {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  image     String
-  createdAt DateTime @default(now())
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  email         String   @unique
+  name          String   @db.VarChar
+  hashedPassword String   @db.VarChar
+  profilePic    String?  @db.VarChar
+  isAdmin       Boolean  @default(false)
+
+  // Relations
+  createdEvents Event[]
+  createdBlogs  Blog[]
+  createdComments BlogComment[]
+  likedBlogs    BlogLike[]
+
+  @@map("Users")
+}
+
+model Event {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @db.VarChar
+  headlineText String   @db.Text
+  description  String   @db.Text
+  image        String?  @db.VarChar
+  time         DateTime @db.Timestamp
+  location     String   @db.VarChar
+  createdById  String   @db.Uuid
+
+  // Relations
+  createdBy    User     @relation(fields: [createdById], references: [id])
+
+  @@map("Events")
+}
+
+model Blog {
+  id           String        @id @default(uuid()) @db.Uuid
+  coverImage   String?       @db.VarChar
+  text         String        @db.Text
+  createdById  String        @db.Uuid
+
+  // Relations
+  createdBy    User          @relation(fields: [createdById], references: [id])
+  comments     BlogComment[]
+  likes        BlogLike[]
+
+  @@map("Blogs")
+}
+
+model BlogComment {
+  id          String @id @default(uuid()) @db.Uuid
+  text        String @db.Text
+  blogId      String @db.Uuid
+  createdById String @db.Uuid
+
+  // Relations
+  blog        Blog   @relation(fields: [blogId], references: [id])
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  @@map("BlogComments")
+}
+
+model BlogLike {
+  id          String @id @default(uuid()) @db.Uuid
+  blogId      String @db.Uuid
+  createdById String @db.Uuid
+
+  // Relations
+  blog        Blog   @relation(fields: [blogId], references: [id])
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  @@unique([blogId, createdById], name: "unique_blog_like")
+  @@map("BlogLikes")
 }
