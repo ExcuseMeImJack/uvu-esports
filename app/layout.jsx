@@ -1,4 +1,7 @@
+import { getServerSession } from 'next-auth'
 import './globals.css'
+import { authOptions } from './api/auth/[...nextauth]/route'
+import { Providers } from './providers'
 // import { Inter } from 'next/font/google'
 
 export const metadata = {
@@ -14,15 +17,15 @@ export const metadata = {
 //   display: 'swap',
 // })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }) {
   return (
     <html lang="en">
       <body className={"inter.variable"}>
+        <Providers children={children}>
 
-        {children}
-
+        </Providers>
       </body>
     </html>
   )

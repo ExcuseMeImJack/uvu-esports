@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import { compare } from "bcrypt";
@@ -37,9 +37,9 @@ export const authOptions = {
         return {
           id: user.id.toString(),
           email: user.email,
-          username: user.username,
-          profilePicUrl: user.profile_pic_url,
-          isPrivate: user.is_private,
+          name: user.name,
+          profilePic: user.profilePic,
+          isAdmin: user.isAdmin,
         };
       },
     }),
@@ -47,7 +47,7 @@ export const authOptions = {
   callbacks: {
     async session({ session, token }) {
       if (token) {
-        // Include custom fields in the session object
+        // Add custom user data to session
         session.user = {
           ...session.user,
           id: token.id,
@@ -60,7 +60,7 @@ export const authOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        // Add user data to the JWT
+        // Add custom user data to the JWT
         token.id = user.id;
         token.email = user.email;
         token.username = user.username;
@@ -69,10 +69,6 @@ export const authOptions = {
       }
       return token;
     },
-  },
-  pages: {
-    signIn: "/auth/signin", // Customize sign-in page
-    error: "/auth/error",   // Error page
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
