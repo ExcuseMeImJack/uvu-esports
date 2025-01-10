@@ -27,7 +27,8 @@ export const authOptions = {
           throw new Error("No user found with this email");
         }
 
-        const isPasswordValid = await compare(credentials.password, user.password);
+        console.log(credentials, user)
+        const isPasswordValid = await compare(credentials.password, user.hashedPassword);
 
         if (!isPasswordValid) {
           throw new Error("Invalid password");
@@ -48,12 +49,13 @@ export const authOptions = {
     async session({ session, token }) {
       if (token) {
         // Add custom user data to session
+        console.log("SESSION =>", session)
         session.user = {
           ...session.user,
           id: token.id,
-          username: token.username,
-          profilePicUrl: token.profilePicUrl,
-          isPrivate: token.isPrivate,
+          name: token.name,
+          profilePic: token.profilePic,
+          isAdmin: token.isAdmin,
         };
       }
       return session;
@@ -63,9 +65,9 @@ export const authOptions = {
         // Add custom user data to the JWT
         token.id = user.id;
         token.email = user.email;
-        token.username = user.username;
-        token.profilePicUrl = user.profilePicUrl;
-        token.isPrivate = user.isPrivate;
+        token.name = user.name;
+        token.profilePic = user.profilePic;
+        token.isAdmin = user.isAdmin;
       }
       return token;
     },
