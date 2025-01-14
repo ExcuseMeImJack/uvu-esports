@@ -27,7 +27,7 @@ export const authOptions = {
           throw new Error("No user found with this email");
         }
 
-        console.log(credentials, user)
+        // console.log("nextAuth/route.js => ", credentials, user)
         const isPasswordValid = await compare(credentials.password, user.hashedPassword);
 
         if (!isPasswordValid) {
@@ -48,8 +48,6 @@ export const authOptions = {
   callbacks: {
     async session({ session, token }) {
       if (token) {
-        // Add custom user data to session
-        console.log("SESSION =>", session)
         session.user = {
           ...session.user,
           id: token.id,
@@ -64,7 +62,6 @@ export const authOptions = {
       if (user) {
         // Add custom user data to the JWT
         token.id = user.id;
-        token.email = user.email;
         token.name = user.name;
         token.profilePic = user.profilePic;
         token.isAdmin = user.isAdmin;

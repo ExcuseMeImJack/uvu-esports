@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth'
 import './globals.css'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import { Providers } from './providers'
+import { useSession } from 'next-auth/react'
 // import { Inter } from 'next/font/google'
 
 export const metadata = {
@@ -20,8 +21,6 @@ export const metadata = {
 export default async function RootLayout({
   children,
 }) {
-  const session = await getServerSession(authOptions);
-  console.log(session);
   return (
     <html lang="en">
       <body className={"inter.variable"}>

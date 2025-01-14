@@ -66,7 +66,7 @@ function SignIn() {
         setErrors(error);
       } else {
         router.refresh();
-        router.push('/profile');
+        // router.push('/profile');
       }
     })
   }

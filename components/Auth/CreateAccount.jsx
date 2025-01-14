@@ -48,7 +48,6 @@ function CreateAccount() {
       router.refresh();
       if (res.status === 200) {
         setTimeout(() => {
-          router.push("/profile");
           signIn("credentials", {
             redirect: false,
             email,
