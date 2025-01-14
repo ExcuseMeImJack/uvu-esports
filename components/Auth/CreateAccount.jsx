@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react'
 function CreateAccount() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,7 @@ function CreateAccount() {
       if (isOpen && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setEmail("");
         setPassword("");
-        setUsername("");
+        setName("");
       }
     }
 
@@ -40,7 +40,7 @@ function CreateAccount() {
       },
       body: JSON.stringify({
         email,
-        username,
+        name,
         password,
       }),
     }).then(async (res) => {
@@ -58,7 +58,6 @@ function CreateAccount() {
               setErrors(error);
             } else {
               router.refresh();
-              router.push('/profile');
             }
           })
         }, 2000);
@@ -74,15 +73,14 @@ function CreateAccount() {
     setLoading(true);
     signIn("credentials", {
       redirect: false,
-      email: "Tester4@test.io",
-      password: "password"
+      email: "rauchg@vercel.com",
+      password: "tester"
     }).then(({ error }) => {
       if (error) {
         setLoading(false);
         setErrors(error);
       } else {
         router.refresh();
-        router.push('/profile');
       }
     })
   }
@@ -104,12 +102,12 @@ function CreateAccount() {
               />
             </li>
             <li>
-              <label className='hover:cursor-default hover:bg-[#212022]'>Username</label>
+              <label className='hover:cursor-default hover:bg-[#212022]'>Name</label>
               <input
                 className='hover:cursor-text'
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </li>

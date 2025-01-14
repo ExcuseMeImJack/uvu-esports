@@ -19,7 +19,7 @@ export async function POST(req) {
         email,
         name,
         hashedPassword: await hash(password, 10),
-        isAdmin,
+        isAdmin: false,
         profilePic: "https://d3ki9tyy5l5ruj.cloudfront.net/obj/3d4665c7cf119dc9dc38232301b18fa68b9bb17c/avatar.svg"
       },
     });

@@ -58,8 +58,8 @@ function SignIn() {
     setLoading(true);
     signIn("credentials", {
       redirect: false,
-      email: "Tester4@test.io",
-      password: "password"
+      email: "rauchg@vercel.com",
+      password: "tester"
     }).then(({ error }) => {
       if (error) {
         setLoading(false);
