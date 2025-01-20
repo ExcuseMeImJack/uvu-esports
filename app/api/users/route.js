@@ -6,7 +6,7 @@ import isAdmin from '../../../lib/routes/isAdmin.js'; // Ensure isAdmin is corre
 export async function GET(req) {
   try {
     // Call isAdmin and check if the user is authorized
-    const authorized = await isAdmin(req); // Pass the request to isAdmin
+    const authorized = await isAdmin(); // Pass the request to isAdmin
     if (!authorized) {
       return NextResponse.json(
         { error: 'Unauthorized access' },
@@ -34,7 +34,5 @@ export async function GET(req) {
       { error: 'Error fetching users from the database' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
