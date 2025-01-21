@@ -24,8 +24,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={"inter.variable"}>
-        <Providers children={children}>
-
+        <Providers>
+          {children}
         </Providers>
       </body>
     </html>
