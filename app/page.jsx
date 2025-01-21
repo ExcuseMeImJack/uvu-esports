@@ -48,8 +48,6 @@ export default function Home() {
 
   if (status === 'loading') return <Loading loader={1} />;
 
-  if (!allUsers) return <Loading loader={1} />;
-
   return (
     <div>
       <div className="flex flex-col gap-8">
@@ -124,7 +122,7 @@ export default function Home() {
             <div>
               <h1 className="text-center font-bold text-xl">All Users</h1>
               <div className='flex justify-evenly gap-2 flex-wrap'>
-                {allUsers.map((user, i) => (
+                {allUsers?.map((user, i) => (
                   <div key={i} className="flex flex-col gap-2 p-2 w-40">
                     <Image
                       alt="Profile Image"
